@@ -24,15 +24,15 @@ jobs:
       # c. Build Docker Image
       - run: |
           echo "Building Docker image..."
-          docker build -t your-docker-username/your-image-name .
+          docker build -t auroradreamer/circleci-assignment .
 
       # d. Upload Docker Image to Docker Hub
       - run: |
           echo "Logging in to Docker Hub..."
-          echo $DOCKER_HUB_TOKEN | docker login -u your-docker-username --password-stdin
+          echo $DOCKER_HUB_TOKEN | docker login -u auroradreamer --password-stdin
           echo "Pushing Docker image..."
-          docker tag your-docker-username/your-image-name:latest your-docker-username/your-image-name:latest
-          docker push your-docker-username/your-image-name:latest
+          docker tag auroradreamer/circleci-assignment:latest auroradreamer/circleci-assignment:latest
+          docker push auroradreamer/circleci-assignment:latest
 
 workflows:
   build-and-deploy-workflow:
