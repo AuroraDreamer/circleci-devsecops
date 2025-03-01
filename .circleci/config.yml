@@ -1,0 +1,40 @@
+version: 2.1
+
+jobs:
+  build-and-deploy:
+    docker:
+      - image: cimg/docker:20.10.16
+
+    steps:
+      # a. Build Code
+      - checkout
+      - run: |
+          echo "Building code..."
+          # Add your code build commands here
+
+      # b. Run Unit Tests
+      - run: |
+          echo "Running unit tests..."
+          # Add your unit test commands here
+
+      # c. Build Docker Image
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          echo "Building Docker image..."
+          docker build -t your-docker-username/your-image-name .
+
+      # d. Upload Docker Image to Docker Hub
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          echo "Logging in to Docker Hub..."
+          echo $DOCKER_HUB_TOKEN | docker login -u your-docker-username --password-stdin
+          echo "Pushing Docker image..."
+          docker tag your-docker-username/your-image-name:latest your-docker-username/your-image-name:latest
+          docker push your-docker-username/your-image-name:latest
+
+workflows:
+  build-and-deploy-workflow:
+    jobs:
+      - build-and-deploy
