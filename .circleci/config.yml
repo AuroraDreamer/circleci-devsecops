@@ -3,30 +3,15 @@ version: 2.1
 jobs:
   build-and-deploy:
     docker:
-      - image: cimg/docker:20.10.16
+      - image: docker:stable
 
     steps:
-      # a. Build Code
       - checkout
-      - run: |
-          echo "Building code..."
-          # Add your code build commands here
-
-      # b. Run Unit Tests
-      - run: |
-          echo "Running unit tests..."
-          # Add your unit test commands here
-
-      # Setup remote Docker environment
       - setup_remote_docker:
           docker_layer_caching: true
-
-      # c. Build Docker Image
       - run: |
           echo "Building Docker image..."
           docker build -t auroradreamer/circleci-assignment .
-
-      # d. Upload Docker Image to Docker Hub
       - run: |
           echo "Logging in to Docker Hub..."
           echo $DOCKER_HUB_TOKEN | docker login -u auroradreamer --password-stdin
